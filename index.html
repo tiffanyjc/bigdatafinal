@@ -625,7 +625,7 @@
                         
                             <p>The first major finding of this part of the project was that regression trees and variants of regression trees were not particularly predictive of socioeconomic status of an area based solely on attributes of a particular restaurant in that area. Despite significant tuning done on the trees and the use of a boosted model, we found that MSE values continued to be high. We suspect that this is because the information embedded in the attributes of just one restaurant in an area is insufficient to predict socioeconomic status of the area associated with the restaurant&rsquo;s zip code. This makes sense, since there are many types of businesses that will operate in a variety of different types of areas. For example, fast food places are likely found in areas with relatively high and relatively low income levels. However, we hypothesized that they would probably be found at a lower frequency in high-income areas, and this hypothesis led us to move to a regression of area income on number of businesses satisfying particular criteria in the area.</p>
 
-                            <p>Moving to the OLS regression model, we observed that certain features seem key in predicting socioeconomic status of particular areas. While some of these features (Ambience_&rsquo;upscale&rsquo;, RestaurantsPriceRange2+3, and BusinessParking_&rsquo;valet&rsquo; for example) were along the lines of what we would have predicted, others were initially surprising. In particular, we thought it was interesting that the number of gluten-free places was high significant in the regression. </p>
+                            <p>Moving to the OLS regression model, we observed that certain features seem key in predicting socioeconomic status of particular areas. While some of these features (Ambience_&rsquo;upscale&rsquo;, RestaurantsPriceRange2+3, and BusinessParking_&rsquo;valet&rsquo; for example) were along the lines of what we would have predicted, others were initially surprising. In particular, we thought it was interesting that the number of gluten-free places was highly significant in the regression. </p>
                             <p>Among the regressors used in the reduced regression with control, the coefficients on the following regressors were statistically significant:</p>
                             <ul>
                                 <li>total_businesses ***</li>
@@ -885,7 +885,7 @@
 
                            <h3>Pittsburgh</h3>
                             
-                            <p><b>Price Range: </b> TThe prices range breakdown of businesses in Pittsburgh shows that there are not too many expensive businesses in the city. 
+                            <p><b>Price Range: </b> The prices range breakdown of businesses in Pittsburgh shows that there are not too many expensive businesses in the city. 
                             </p>
 
                             <img src="img/Fig333.JPG">
@@ -1026,7 +1026,7 @@
                                 <p>Extensions</p>
                             </header>
 
-                            <p>With more time and, a logical extension to this process is to refine the preciseness of the analysis. With the current mapping of businesses based on their features, it can be difficult to determine if a cluster of businesses only occurs because that area of the city is more densely populated overall with businesses of all types. To combat this problem, we can create some sort of normalization factor using the density of the identified businesses of a certain feature in a specific area, such as postal code, and comparing it to the overall density of all businesses in the same area. Thus, the neighborhood and feature maps are a first step in determining which characteristics, businesses, and neighborhoods to examine further. </p>
+                            <p>With more time and data, a logical extension to this process is to refine the precision of the analysis. With the current mapping of businesses based on their features, it can be difficult to determine if a cluster of businesses only occurs because that area of the city is more densely populated overall with businesses of all types. To combat this problem, we can create some sort of normalization factor using the density of the identified businesses of a certain feature in a specific area, such as postal code, and comparing it to the overall density of all businesses in the same area. Thus, the neighborhood and feature maps are a first step in determining which characteristics, businesses, and neighborhoods to examine further. </p>
                             
                             <p>Another takeaway from this is looking at how Yelp can improve their website to be more indicative of businesses and their features. As mentioned earlier, some of the business characteristics, especially the ambiance features are very sparsely used. However, some of the same ambiance keywords from the reviews proved to be very useful in distinguishing some areas of the cities from others. Thus, Yelp can look into completing these fields for their users by looking through the review data, especially since the reviews portray how past customers perceive the business and its characteristics, such as ambiance.</p>
                             
