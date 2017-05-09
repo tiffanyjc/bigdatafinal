@@ -127,17 +127,212 @@
                         <p>Procedure</p>
                         </header>
                         
+                        <p>
+                            After data wrangling, we will split our procedure into two different parts: the first section will set out to make more observatory analyses of the given data, while the second section uses the data to begin training a predictive model to generate insight if we were given more review data in the future. 
+                        </p>
+                        
+                        <h3>Phase 0: Data Wrangling </h3>
+                        <p></p>
+                        <p>
+                            We begin by converting the review data from JSON into a CSV file, using the list of businesses provided to also relate a review to the location it was written for, and separating all the review data into CSV’s of review data based on state in the US. 
+                            
+                        </p>
+                        <p>
+                            In preparation for data analysis, we also removed reviews with associated ratings of 3 (out of 5) stars, as they were considered neutral (and thus unnecessary) for our analyses. The following table shows the final number of reviews tied to each US state that was provided to us within the whole dataset. 
+                        </p>
+                        
+                        <b>Table 1.1: Number of 1, 2, 4, 5 star reviews for US states</b>
+                        
+                        <table>
+                            <tr><td><b>STATE</b>
+                                </td>
+                                <td><b># REVIEWS</b>
+                                </td>
+                            </tr>
+                            <tr><td>VT
+                                </td>
+                                <td>4
+                                </td>
+                            </tr>
+                            <tr><td>AZ
+                                </td>
+                                <td>1265915
+                                </td>
+                            </tr>
+                            <tr><td>WI
+                                </td>
+                                <td>88778
+                                </td>
+                            </tr>
+                            <tr><td>NV
+                                </td>
+                                <td>1460806
+                                </td>
+                            </tr>
+                            <tr><td>OH
+                                </td>
+                                <td>190786
+                                </td>
+                            </tr>
+                            <tr><td>NC
+                                </td>
+                                <td>233703
+                                </td>
+                            </tr>
+                            <tr><td>SC
+                                </td>
+                                <td>7379
+                                </td>
+                            </tr>
+                            <tr><td>PA
+                                </td>
+                                <td>179774
+                                </td>
+                            </tr>
+                            <tr><td>IL
+                                </td>
+                                <td>29874
+                                </td>
+                            </tr>
+                            <tr><td>NY
+                                </td>
+                                <td>99
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <h3>Phase 1: Observatory analyses </h3>
+
+                        <p>
+                            We begin by assessing the polarity and subjectivity of reviews based on their textual content. We define polarity as the expressed opinion in a document (i.e. positive, negative, or neutral) and subjectivity as the overall individual feeling / experience that is embodied within the text. 
+                        </p>
+
+                        <p>
+                            Using the Python TextBlob, we ran sentiment analyses to obtain polarity and subjectivity scores for 1) all positive / negative reviews together, 2) positive reviews only, and 3) negative reviews only for each state listed in Table 1.1. 
+                        </p>
+                        
+                        <img src="img/Fig12.JPG">
+                        
+                        <p>
+                            From there, we also extract subsets of a maximum of 10,000 words from all the reviews within a given state to obtain word-count tables containing the top 100 words with highest frequencies (excluding filler / meaningless words). 
+
+                        </p>
+                        
+                        <p>
+                        
+                            We attach the table with highest frequency words for each state as Appendix A. 
+                        </p>
+                        
+                        <h3>Phase 2: Phase 2: Model training / prediction </h3>
+                        
+                        <p>
+                            We then proceed to train a model using big data to predict the average number of stars based on the textual content of a review. In this model, we use an iterative stochastic gradient ascent on randomized subsets of our data to obtain an optimized model. We use a gradient ascent rather than a descent because by we use a logistic regression to maximize our likelihood function rather than minimize our loss function. 
+                        </p>
+                        
+                        <p>
+                            More specifically, in Python we create an iterator which loops through subsets of review data of size 1000 and clean the review text through tokenizing and stemming the words in reviews, which are then passed to a hashing vectorizer so as to match words with different suffixes but similar meanings / intentions. 
+
+                        </p>
+                        
+                        <p>
+                            We then, using the hashing vectorizer along with a bag of words model containing negative and positive sentiment-associated words, loop through the review iterator to train our model on the subset data. 
+
+                        </p>
+                        
+                        <p>
+                            We then plot our accuracy in predicting review ratings as a function of the iteration they are on (we omit several states’ individual accuracies because the number of reviews they had wasn’t enough to train a full model): 
+                        </p>
+                        
+                        <img src="img/Fig13.jpg"> 
+                        
+                        <p></p>
+                        <img src="img/Fig14.jpg"> 
+                        <img src="img/Fig15.jpg"> 
+                        <img src="img/Fig16.jpg"> 
+                        
                         <header class="major">
                             <p>Key Findings</p>
                         </header>
+                        
+                        <p>
+                            Based on our data analyses, we observe three key findings: 
+                        </p>
+                        
+                        <ol>
+                            <li><b>1: &nbsp; Positive and negative rating reviews can easily be distinguished by their polarity</b></li>
+                            <p></p>
+                            While intuitively this is exactly what we had anticipated, the differences in average polarity of negative versus positive reviews were unexpectedly significant (see Table 1.3). As a result, we observe that a first-pass NLP approach for sentiment analysis is extremely effective at distinguishing between reviews that are positive and reviews that are negative, and that these NLP characteristics are in line with the ultimate rating that the reviewer gave to the business.  
+                            <p></p>
+                            
+                            <b>Table 1.3: Averaged Sentiments Across Reviews</b>
+                            <table>
+                                <tr>
+                                    <td></td>
+                                    <td><b>Total</b></td>
+                                    <td><b>Negative</b></td>
+                                    <td><b>Positive</b></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Polarity</b></td>
+                                    <td>0.237641</td>
+                                    <td>0.00839374444</td>
+                                    <td>
+                                        0.3240234444
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Subjectivity</b></td>
+                                    <td>0.56574</td>
+                                    <td>0.519134</td>
+                                    <td>0.57551822</td>
+                                </tr>
+                            
+                            </table>
+                            
+                            
+                            <li><b>2: The content and structure / composition of a review varies significantly depending on ratings 
+                                </b></li>
+                            <p></p>
+                            Based on the word frequency tables obtained by state (see Appendix A), a heuristic analysis showed a consistent pattern across reviews that were negative (1, 2 stars) or positive (4, 5 stars). It was found that positive reviews included more frequent usages of adjectives, which were either used to describe people (i.e. “friendly”, “awesome”, “amazing”) or to describe food (“delicious”, “cheap”, etc.). 
+                            <p></p>
+                            On the other hand, negative reviews had an unexpectedly high frequency of nouns, specifically referencing people (i.e. “staff”, “waiter”, “manager”, “waitress”, “customer”, etc.). In addition to mentions of people and human interactions, other aspects of businesses that surfaced in the frequency tables included money (“expensive”, “price”) and location (“area”, “location”, “parking”). 
+
+                            <p></p>
+                            <li><b>3: Some states culturally seem to have more demonstrative / indicative reviews of their feelings about food; we can predict the rating given by a review according to its text description with a relatively high accuracy </b></li>
+                            <p></p>
+                            
+                            While the accuracy for our SGD model was approximately 78% (Figure 1.3) when trained with review data from all our given states, selectively training our model state by state (i.e. Figures 1.4 - 1.6) showed that in some cases, there was approximately a 10% increase in model accuracy, which implies that reviews in certain states offer more insight via positive / negative sentiment into the ultimate review rating. 
+                        </ol>
                         
                         <header class="major">
                             <p>Implications</p>
                         </header>
                         
+                        <p>Overall, our findings suggest potential ways to increase both new and veteran businesses’ success in Yelp ratings. 
+                           
+                        </p>
+                        
+                        <p>
+                            For businesses owners who are considering opening up shop in a particular state, they will now have a better idea of which areas of their business to strengthen in preparation for opening day (i.e. better customer service, cutting costs in order to reduce menu prices, etc.); for business owners who are considering expanding to a new geographical area, the research findings provide a good way of gauging whether there exists a synergy between the existing business’ strengths and the needs of their new customer base. 
+                            
+                        </p>
+                        
+                        <p>
+                            For businesses who want a better idea of their performance relative to their competitors, being able to analyze more data than simply the average star rating will provide a more nuanced insight into why their business is performing worse relative to others, and which exact features of their business they can focus on so as to intentionally target an increase in their average review rating.
+                        </p>
+                        
                         <header class="major">
                             <p>Extensions</p>
                         </header>
+                        
+                        <p>
+                            Finally, we end this portion of our research by noting several improvements that can be made to our current procedure, given longer periods of time and more detailed data. Firstly, it seems likely that there may be varying tendencies / habits in giving ratings across different user demographics and geographical locations. For example, it is possible that older people are more likely to write a positive review than an individual in their early 20s. Perhaps New Yorkers have higher standards and are more frugal with handing out 5 stars. As a result, if we had been given more extensive user data and been able to observe users’ habits across different businesses, we could expect that normalizing our data would improve the accuracy of our model. 
+                            
+                        </p>
+                        
+                        <p>
+                            Additionally, had we been given more data across more states, it would have made sense to also run a sentiment analysis across different regions of the US (i.e. Northeast, Midwest, etc.) to observe review behaviors on a more macro, regional level than simply by state. 
+                        </p>
 <!--
 						<div class="row features">
 							<section class="4u 12u(narrower) feature">
