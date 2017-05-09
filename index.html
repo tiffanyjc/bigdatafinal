@@ -510,7 +510,7 @@
 
 						<p>We suspected that the data set we were working with was lacking in features, so our next step was to enrich the set with more features. The natural next place to look for features in our data set was in the attributes field, since we had already exhausted all of the category information. However, we noticed that attributes were only indicated for businesses that are restaurants, so we decided to narrow our focus exclusively to restaurants in the dataset. </p>
 
-						<p>We then parsed and binarized the attribute information. (This was non-trivial since the attribute information is much richer than the category information. While category information is just a list of categories, attribute information is nested on multiple levels and each attribute key can take on several different types of values rather than just binary values.</p>
+						<p>We then parsed and binarized the attribute information. (This step was non-trivial since the attribute information is much richer than the category information. While category information is just a list of categories, attribute information is nested on multiple levels and each attribute key can take on several different types of values rather than just binary values.)</p>
 
 						<p>We ran the restaurant data through the gradient boosted regression tree model and obtained the following results:</p>
 
@@ -593,7 +593,7 @@
 						
 						<h3>Gathering insights from regression tree/gradient boosted regression tree</h3>
 
-						<p>We decided that an appropriate next step would be to &ldquo;flip&rdquo; the model and predict the wealth of an area based on the businesses in the area. We wanted to run an OLS regression to do this, but it was not immediately clear how to aggregate the business data into an appropriate format for OLS regression. We looked to the previous regression tree models for indications of what regressors might be appropriate. We looked at the best-performing regression tree, which we include as an attachment. (TODO!!!)</p>
+						<p>We decided that an appropriate next step would be to &ldquo;flip&rdquo; the model and predict the wealth of an area based on the businesses in the area. We wanted to run an OLS regression to do this, but it was not immediately clear how to aggregate the business data into an appropriate format for OLS regression. We looked to the previous regression tree models for indications of what regressors might be appropriate. We looked at the best-performing regression tree, which we include <a href="https://drive.google.com/a/brown.edu/file/d/0B7BnhQApfX0pMUxtdXJHMmV0Vk0/view?usp=sharing" style="text-decoration:underline;" target="_blank" >here</a>.</p>
 						<p>From the tree, we looked at features which split the data at a particular node into two sizeable groups rather than splitting so that one group has only a few data points: we thought that these features were indicative of larger trends in the whole data set rather than smaller particularities of the sample that we have. This set of features is below:</p>
                             
 						
