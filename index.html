@@ -170,7 +170,7 @@
                         </p>
 
                         <p>
-                            Using the Python TextBlob, we ran sentiment analyses to obtain polarity and subjectivity scores for 1) all positive / negative reviews together, 2) positive reviews only, and 3) negative reviews only for each state listed in Table 1.1. 
+                            Using Python TextBlob, we ran sentiment analyses to obtain polarity and subjectivity scores for 1) all positive / negative reviews together, 2) positive reviews only, and 3) negative reviews only for each state listed in Table 1.1. 
                         </p>
                         
                         <img src="img/Fig12.JPG">
@@ -185,10 +185,10 @@
                             We attach the table with highest frequency words for each state as <a href="https://docs.google.com/a/brown.edu/spreadsheets/d/1HWjijek6LEL0qtbZwxdm4C-eHy12KeB0ImRP313aEps/edit?usp=sharing" target="_blank">Appendix A</a>. 
                         </p>
                         
-                        <h3>Phase 2: Phase 2: Model training / prediction </h3>
+                        <h3>Phase 2: Model training / prediction </h3>
                         
                         <p>
-                            We then proceed to train a model using big data to predict the average number of stars based on the textual content of a review. In this model, we use an iterative stochastic gradient ascent on randomized subsets of our data to obtain an optimized model. We use a gradient ascent rather than a descent because by we use a logistic regression to maximize our likelihood function rather than minimize our loss function. 
+                            We then proceed to train a model using big data to predict the average number of stars based on the textual content of a review. In this model, we use an iterative stochastic gradient ascent on randomized subsets of our data to obtain an optimized model. We use a gradient ascent rather than a descent because we use a logistic regression to maximize our likelihood function rather than minimize our loss function. 
                         </p>
                         
                         <p>
@@ -197,7 +197,7 @@
                         </p>
                         
                         <p>
-                            We then, using the hashing vectorizer along with a bag of words model containing negative and positive sentiment-associated words, loop through the review iterator to train our model on the subset data. 
+                            Then, using the hashing vectorizer along with a bag of words model containing negative and positive sentiment-associated words, we loop through the review iterator to train our model on the subset data. 
 
                         </p>
                         
@@ -295,7 +295,6 @@
                         <p>
                             Additionally, had we been given more data across more states, it would have made sense to also run a sentiment analysis across different regions of the US (i.e. Northeast, Midwest, etc.) to observe review behaviors on a more macro, regional level than simply by state. 
                         </p>
--->
 						
 					</section>
 				</div>
