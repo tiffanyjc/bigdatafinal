@@ -320,27 +320,27 @@
 						<p>Our first step was to find a secondary data source that would indicate socioeconomic status of a particular area. We ended up using <a href="https://www.irs.gov/uac/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi">tax data from the IRS</a>, which supplied adjusted gross income (AGI) data segmented by zip code and income bracket. We used the most recent data set (from 2014) and did some cleaning and data aggregation in order to produce a CSV with the following information: zip code | state | average adjusted gross income. For our purposes, we excluded information for all zip codes except those of cities which were in the Yelp dataset.</p>
 
 						<p>While doing this, we noted the following particularities of this data set:</p>
-						<ul>
+						<ol>
 						<li>The data probably overestimates income levels since many people are not required by federal law to file tax returns because they do not make enough money. We do not believe this had a significant effect on the results we describe below.</li>
 						<li>The data was segmented by both zip code and income bracket, so we extrapolated from the number of returns information and took a weighted average to get an estimate of average AGI by zip code.</li>
-						</ul>
-						<ul>
+						</ol>
+						<ol>
 
 						<h3>Wrangling business data</h3>
 
 						<p>We also parsed and processed the business data as follows:</p>
-						<ul>
+						<ol>
 						<li>Trimmed the data set to American businesses (since we only had income information for the U.S.).</li>
 						<li>Matched businesses to their average AGI using the information generated in the previous step.</li>
 						<li>Created binary features on the category information. The categories are along the lines of the following:</li>
-						<ul>
+						<ol>
 						<li>Beauty &amp; Spas</li>
 						<li>Health &amp; Medical</li>
 						<li>Nightlife</li>
 						<li>Arts &amp; Entertainment</li>
 						<li>Etc.</li>
-						</ul>
-						</ul>
+						</ol>
+						</ol>
 
 						<h3>Predicting wealth of business&rsquo; neighborhood using regression trees</h3>
 
