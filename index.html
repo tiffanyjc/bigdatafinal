@@ -372,80 +372,81 @@
 							<p>We then parsed and binarized the attribute information. (This was non-trivial since the attribute information is much richer than the category information. While category information is just a list of categories, attribute information is nested on multiple levels and each attribute key can take on several different types of values rather than just binary values.</p>
 
 							<p>We ran the restaurant data through the gradient boosted regression tree model and obtained the following results:</p>
-							
-<p><strong>Table 2.3</strong> Predicting restaurant area wealth by restaurant characteristics &mdash; gradient boosted regression tree MSE values by max features examined per split and max tree depth</p>
-<table>
-<tbody>
-<tr>
-<td>
-<p>feat=.1</p>
-</td>
-<td>
-<p>feat=.2</p>
-</td>
-<td>
-<p>feat=.3</p>
-</td>
-<td>
-<p>feat=.4</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>depth=2</p>
-</td>
-<td>
-<p>2112.34324877</p>
-</td>
-<td>
-<p>2105.05695268</p>
-</td>
-<td>
-<p>2118.50388279</p>
-</td>
-<td>
-<p>2098.7166738</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>depth=4</p>
-</td>
-<td>
-<p>2072.40706255</p>
-</td>
-<td>
-<p>2067.64289723</p>
-</td>
-<td>
-<p>2067.23118337</p>
-</td>
-<td>
-<p>2060.12189132</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>depth=6</p>
-</td>
-<td>
-<p>2065.75468912</p>
-</td>
-<td>
-<p>2050.02884825</p>
-</td>
-<td>
-<p>2046.44203703</p>
-</td>
-<td>
-<p>2051.93046732</p>
-</td>
-</tr>
-</tbody>
-</table>
-<p>Since the MSE measures remained high across the board, we decided to move to a different model to examine the problem of predicting socioeconomic wealth using business data.</p>
-<ul>
-<li><strong><strong>Gathering insights from regression tree/gradient boosted regression tree</strong></strong></li>
+
+							<p><strong>Table 2.3</strong> Predicting restaurant area wealth by restaurant characteristics &mdash; gradient boosted regression tree MSE values by max features examined per split and max tree depth</p>
+
+							<table>
+							<tbody>
+							<tr>
+							<td>
+							<p>feat=.1</p>
+							</td>
+							<td>
+							<p>feat=.2</p>
+							</td>
+							<td>
+							<p>feat=.3</p>
+							</td>
+							<td>
+							<p>feat=.4</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=2</p>
+							</td>
+							<td>
+							<p>2112.34324877</p>
+							</td>
+							<td>
+							<p>2105.05695268</p>
+							</td>
+							<td>
+							<p>2118.50388279</p>
+							</td>
+							<td>
+							<p>2098.7166738</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=4</p>
+							</td>
+							<td>
+							<p>2072.40706255</p>
+							</td>
+							<td>
+							<p>2067.64289723</p>
+							</td>
+							<td>
+							<p>2067.23118337</p>
+							</td>
+							<td>
+							<p>2060.12189132</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=6</p>
+							</td>
+							<td>
+							<p>2065.75468912</p>
+							</td>
+							<td>
+							<p>2050.02884825</p>
+							</td>
+							<td>
+							<p>2046.44203703</p>
+							</td>
+							<td>
+							<p>2051.93046732</p>
+							</td>
+							</tr>
+							</tbody>
+							</table>
+
+							<p>Since the MSE measures remained high across the board, we decided to move to a different model to examine the problem of predicting socioeconomic wealth using business data.</p>
+<h3>Gathering insights from regression tree/gradient boosted regression tree<h3>
 </ul>
 <p>We decided that an appropriate next step would be to &ldquo;flip&rdquo; the model and predict the wealth of an area based on the businesses in the area. We wanted to run an OLS regression to do this, but it was not immediately clear how to aggregate the business data into an appropriate format for OLS regression. We looked to the previous regression tree models for indications of what regressors might be appropriate. We looked at the best-performing regression tree, which we include as an attachment. (TODO!!!)</p>
 <p>From the tree, we looked at features which split the data at a particular node into two sizeable groups rather than splitting so that one group has only a few data points: we thought that these features were indicative of larger trends in the whole data set rather than smaller particularities of the sample that we have. This set of features is below:</p>
