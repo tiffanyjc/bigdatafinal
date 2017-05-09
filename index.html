@@ -362,6 +362,347 @@
 					</section>
 				</div>
 
+				<div class="wrapper">
+					<section class="container">
+						<header class="major">
+                            <h2>2:&nbsp; Are attributes of area businesses predictive of average socioeconomic status in an area? </h2>
+						</header>
+                        
+                        <p>
+							We now move to an exploration of how data from the Yelp Dataset Challenge can predict the wealth level of people living particular areas. For this part of the project, we were interested in identifying features of businesses that were in some sense suggestive of the socioeconomic landscape of a particular area or neighborhood. We hypothesized, for example, that areas with a higher number of restaurants that are ‘upscale’ or expensive would tend to be areas where the residents have higher income. Similarly, we hypothesized that areas with more inexpensive restaurants would tend to be areas where the residents have lower income levels. Our objective in this part of the project was to assess how exactly how predictive the business data could be of socioeconomic status of particular locations.
+                        </p>
+                        
+                        <header class="major">
+                        	<p>Procedure</p>
+
+                        	<h3>Obtaining socioeconomic status information<h3>
+							
+							<p>Our first step was to find a secondary data source that would indicate socioeconomic status of a particular area. We ended up using <a href="https://www.irs.gov/uac/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi">tax data from the IRS</a>, which supplied adjusted gross income (AGI) data segmented by zip code and income bracket. We used the most recent data set (from 2014) and did some cleaning and data aggregation in order to produce a CSV with the following information: zip code | state | average adjusted gross income. For our purposes, we excluded information for all zip codes except those of cities which were in the Yelp dataset.</p>
+
+							<p>While doing this, we noted the following particularities of this data set:</p>
+							<ul>
+							<li>The data probably overestimates income levels since many people are not required by federal law to file tax returns because they do not make enough money. We do not believe this had a significant effect on the results we describe below.</li>
+							<li>The data was segmented by both zip code and income bracket, so we extrapolated from the number of returns information and took a weighted average to get an estimate of average AGI by zip code.</li>
+							</ul>
+							<ul>
+
+							<h3>Wrangling business data<h3>
+
+							<p>We also parsed and processed the business data as follows:</p>
+							<ul>
+							<li>Trimmed the data set to American businesses (since we only had income information for the U.S.).</li>
+							<li>Matched businesses to their average AGI using the information generated in the previous step.</li>
+							<li>Created binary features on the category information. The categories are along the lines of the following:</li>
+							<ul>
+							<li>Beauty &amp; Spas</li>
+							<li>Health &amp; Medical</li>
+							<li>Nightlife</li>
+							<li>Arts &amp; Entertainment</li>
+							<li>Etc.</li>
+							</ul>
+							</ul>
+
+							<h3>Predicting wealth of business&rsquo; neighborhood using regression trees<h3>
+
+							<p>As a first attempt to tackle our research question, we used regression trees to predict the wealth of a particular business&rsquo; location (determined by zip code), using category information as features. We tuned the regression tree by varying the maximum number of features examined to determine each split and by varying the depth of the tree, and we noticed that this did seem to improve our results.</p>
+
+							<p>We split the data into a training set (80%) and a testing set (20%). (This step was also done for the other regression tree/gradient boosted regression tree models we generated.) The results of this first round of prediction are below:</p>
+
+							<p><strong>Table 2.1</strong> Predicting business area wealth by business characteristics &mdash; regression tree MSE values by max features examined per split and max tree depth</p>
+
+							<table>
+							<tbody>
+							<tr>
+							<td>
+							<p>feat=.1</p>
+							</td>
+							<td>
+							<p>feat=.2</p>
+							</td>
+							<td>
+							<p>feat=.3</p>
+							</td>
+							<td>
+							<p>feat=.4</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=2</p>
+							</td>
+							<td>
+							<p>2127.38756699</p>
+							</td>
+							<td>
+							<p>2121.66437611</p>
+							</td>
+							<td>
+							<p>2122.67506738</p>
+							</td>
+							<td>
+							<p>2112.8490354</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=4</p>
+							</td>
+							<td>
+							<p>2109.25540175</p>
+							</td>
+							<td>
+							<p>2106.00052076</p>
+							</td>
+							<td>
+							<p>2103.62800319</p>
+							</td>
+							<td>
+							<p>2102.98962337</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=6</p>
+							</td>
+							<td>
+							<p>2106.7270169</p>
+							</td>
+							<td>
+							<p>2093.65241749</p>
+							</td>
+							<td>
+							<p><strong><em>2088.41843785</em></strong></p>
+							</td>
+							<td>
+							<p>2092.31124289</p>
+							</td>
+							</tr>
+							</tbody>
+							</table>
+
+							<p>Even with the most optimal set of parameters, however, we noticed that the MSE values were still very high. (They are reported above in thousands of dollars.)</p>
+
+							<h3>Predicting wealth of business&rsquo; neighborhood using gradient boosted regression trees<h3>
+
+							<p>Our next approach was to use gradient boosted regression trees; we hoped that this would improve the predictive power of the model. Analogous results to those presented for the regression trees are presented below:</p>
+							
+							<p><strong>Table 2.2</strong> Predicting business area wealth by business characteristics &mdash; gradient boosted regression tree MSE values by max features examined per split and max tree depth</p>
+
+							<table>
+							<tbody>
+							<tr>
+							<td>
+							<p>feat=.1</p>
+							</td>
+							<td>
+							<p>feat=.2</p>
+							</td>
+							<td>
+							<p>feat=.3</p>
+							</td>
+							<td>
+							<p>feat=.4</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=2</p>
+							</td>
+							<td>
+							<p>2071.69089944</p>
+							</td>
+							<td>
+							<p>2068.95690973</p>
+							</td>
+							<td>
+							<p>2069.50609851</p>
+							</td>
+							<td>
+							<p>2068.48800992</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=4</p>
+							</td>
+							<td>
+							<p>2055.30749086</p>
+							</td>
+							<td>
+							<p>2052.90528437</p>
+							</td>
+							<td>
+							<p>2051.90428652</p>
+							</td>
+							<td>
+							<p>2051.74584601</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=6</p>
+							</td>
+							<td>
+							<p>2046.58963345</p>
+							</td>
+							<td>
+							<p>2045.63039901</p>
+							</td>
+							<td>
+							<p><strong><em>2043.01621297</em></strong></p>
+							</td>
+							<td>
+							<p>2044.72819485</p>
+							</td>
+							</tr>
+							</tbody>
+							</table>
+
+							<p>Still, we observed that MSE values were high, even with the most optimal set of parameters, as we can see from the above table.</p>
+							
+							<h3>Reducing business data set to restaurants in order to add more features<h3>
+
+							<p>We suspected that the data set we were working with was lacking in features, so our next step was to enrich the set with more features. The natural next place to look for features in our data set was in the attributes field, since we had already exhausted all of the category information. However, we noticed that attributes were only indicated for businesses that are restaurants, so we decided to narrow our focus exclusively to restaurants in the dataset. </p>
+
+							<p>We then parsed and binarized the attribute information. (This was non-trivial since the attribute information is much richer than the category information. While category information is just a list of categories, attribute information is nested on multiple levels and each attribute key can take on several different types of values rather than just binary values.</p>
+
+							<p>We ran the restaurant data through the gradient boosted regression tree model and obtained the following results:</p>
+
+							<p><strong>Table 2.3</strong> Predicting restaurant area wealth by restaurant characteristics &mdash; gradient boosted regression tree MSE values by max features examined per split and max tree depth</p>
+
+							<table>
+							<tbody>
+							<tr>
+							<td>
+							<p>feat=.1</p>
+							</td>
+							<td>
+							<p>feat=.2</p>
+							</td>
+							<td>
+							<p>feat=.3</p>
+							</td>
+							<td>
+							<p>feat=.4</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=2</p>
+							</td>
+							<td>
+							<p>2112.34324877</p>
+							</td>
+							<td>
+							<p>2105.05695268</p>
+							</td>
+							<td>
+							<p>2118.50388279</p>
+							</td>
+							<td>
+							<p>2098.7166738</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=4</p>
+							</td>
+							<td>
+							<p>2072.40706255</p>
+							</td>
+							<td>
+							<p>2067.64289723</p>
+							</td>
+							<td>
+							<p>2067.23118337</p>
+							</td>
+							<td>
+							<p>2060.12189132</p>
+							</td>
+							</tr>
+							<tr>
+							<td>
+							<p>depth=6</p>
+							</td>
+							<td>
+							<p>2065.75468912</p>
+							</td>
+							<td>
+							<p>2050.02884825</p>
+							</td>
+							<td>
+							<p>2046.44203703</p>
+							</td>
+							<td>
+							<p>2051.93046732</p>
+							</td>
+							</tr>
+							</tbody>
+							</table>
+
+							<p>Since the MSE measures remained high across the board, we decided to move to a different model to examine the problem of predicting socioeconomic wealth using business data.</p>
+<h3>Gathering insights from regression tree/gradient boosted regression tree<h3>
+</ul>
+<p>We decided that an appropriate next step would be to &ldquo;flip&rdquo; the model and predict the wealth of an area based on the businesses in the area. We wanted to run an OLS regression to do this, but it was not immediately clear how to aggregate the business data into an appropriate format for OLS regression. We looked to the previous regression tree models for indications of what regressors might be appropriate. We looked at the best-performing regression tree, which we include as an attachment. (TODO!!!)</p>
+<p>From the tree, we looked at features which split the data at a particular node into two sizeable groups rather than splitting so that one group has only a few data points: we thought that these features were indicative of larger trends in the whole data set rather than smaller particularities of the sample that we have. This set of features is below:</p>
+<p><strong>Table 2.4</strong> Important features from best performing regression tree on restaurant data</p>
+<ul>
+<li><strong><strong>Predicting wealth of zip code based on restaurant data using OLS regression</strong></strong></li>
+</ul>
+<p>We parsed the restaurant data used for the regression trees, aggregating by zip code on the key features identified in the previous step. That is, for each zip code, we calculated how many restaurants satisfied each of the above characteristics. Each of these counts was then a regressor in our first OLS model. We include the results for this regression below:</p>
+<p><strong>Table 2.5</strong> Regression using important features from best performing regression tree on restaurant data</p>
+<p>We then added a &lsquo;total_businesses&rsquo; regressor to control for the effects of having a high number of businesses in general in a particular zip code, which yielded the following regressors and results.</p>
+<p><strong>Table 2.6</strong> Important features from best performing regression tree on restaurant data, with control</p>
+<p><br /><br /></p>
+<p><strong>Table 2.7</strong> Regression using important features from best performing regression tree on restaurant data, with control</p>
+<p><br /><br /></p>
+<p>We observed that, while a number of the coefficients in the regression above were statistically significant, many were not. In an effort to simplify the regression, we removed all the regressors whose associated p-value were greater than .50. This left us with the following regressors and corresponding OLS regression results:</p>
+<p><strong>Table 2.8</strong> Reduced features from best performing regression tree on restaurant data, with control</p>
+<p><br /><br /></p>
+<p><strong>Table 2.9</strong> Regression using reduced features from best performing regression tree on restaurant data, with control</p>
+<p><br /><br /></p>
+                        </header>
+
+                        <header class="major">
+                            <p>Key Findings</p>
+                        </header>
+                        
+                        <header class="major">
+                            <p>Implications</p>
+                        </header>
+                        
+                        <header class="major">
+                            <p>Extensions</p>
+                        </header>
+<!--
+						<div class="row features">
+							<section class="4u 12u(narrower) feature">
+								<div class="image-wrapper first">
+									<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
+								</div>
+								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
+								vel sem sit dolor neque semper magna lorem ipsum.</p>
+							</section>
+							<section class="4u 12u(narrower) feature">
+								<div class="image-wrapper">
+									<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
+								</div>
+								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
+								vel sem sit dolor neque semper magna lorem ipsum.</p>
+							</section>
+							<section class="4u 12u(narrower) feature">
+								<div class="image-wrapper">
+									<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+								</div>
+								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
+								vel sem sit dolor neque semper magna lorem ipsum.</p>
+							</section>
+						</div>
+-->
+						
+					</section>
+				</div>
+
 			<!-- Footer -->
 				<div id="footer-wrapper">
 					<div id="footer" class="container">
