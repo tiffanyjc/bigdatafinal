@@ -45,9 +45,9 @@
 											<li><a href="#">Veroeros feugiat</a></li>
 										</ul>
 									</li>
-									<li><a href="left-sidebar.html">Left Sidebar</a></li>
-									<li class="break"><a href="right-sidebar.html">Right Sidebar</a></li>
-									<li><a href="no-sidebar.html">No Sidebar</a></li>
+									<li><a href="#one">Section One</a></li>
+									<li class="break"><a href="#two">Section Two</a></li>
+									<li><a href="#three">Section Three</a></li>
 								</ul>
 							</nav>
 
@@ -64,53 +64,12 @@
 
 				</div>
 
-			<!-- Features 1 -->
-<!--
-				<div class="wrapper">
-					<div class="container">
-						<div class="row">
-							<section class="6u 12u(narrower) feature">
-								<div class="image-wrapper first">
-									<a href="#" class="image featured first"><img src="images/pic01.jpg" alt="" /></a>
-								</div>
-								<header>
-									<h2>Semper magna neque vel<br />
-									adipiscing curabitur</h2>
-								</header>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur vel
-								sem sit dolor neque semper magna. Lorem ipsum dolor sit amet consectetur et sed
-								adipiscing elit. Curabitur vel sem sit.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">Elevate my awareness</a></li>
-								</ul>
-							</section>
-							<section class="6u 12u(narrower) feature">
-								<div class="image-wrapper">
-									<a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a>
-								</div>
-								<header>
-									<h2>Amet lorem ipsum dolor<br />
-									sit consequat magna</h2>
-								</header>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur vel
-								sem sit dolor neque semper magna. Lorem ipsum dolor sit amet consectetur et sed
-								adipiscing elit. Curabitur vel sem sit.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">Elevate my awareness</a></li>
-								</ul>
-							</section>
-						</div>
-					</div>
-				</div>
--->
 
-		
-
-			<!-- Features 2 -->
+			<!-- Section 1 -->
 				<div class="wrapper">
 					<section class="container">
 						<header class="major">
-                            <h2>1:&nbsp; What do city residents value in businesses? </h2>
+                            <a name="one"><h2>1:&nbsp; What do city residents value in businesses? </h2></a>
 						</header>
                         
                         
@@ -361,11 +320,13 @@
 						
 					</section>
 				</div>
-
+                <hr>
+            
+            <!-- Section 2 -->
 				<div class="wrapper">
 					<section class="container">
 						<header class="major">
-                            <h2>2:&nbsp; Are attributes of area businesses predictive of average socioeconomic status in an area? </h2>
+                            <a name="two"><h2>2:&nbsp; Are attributes of area businesses predictive of average socioeconomic status in an area? </h2></a>
 						</header>
                         
                     <p>
@@ -679,13 +640,42 @@
                             <p>Key Findings</p>
                         </header>
                         
-                        <header class="major">
-                            <p>Implications</p>
-                        </header>
-                        
-                        <header class="major">
-                            <p>Extensions</p>
-                        </header>
+                            <p>The first major finding of this part of the project was that regression trees and variants of regression trees were not particularly predictive of socioeconomic status of an area based solely on attributes of a particular restaurant in that area. Despite significant tuning done on the trees and the use of a boosted model, we found that MSE values continued to be high. We suspect that this is because the information embedded in the attributes of just one restaurant in an area is insufficient to predict socioeconomic status of the area associated with the restaurant&rsquo;s zip code. This makes sense, since there are many types of businesses that will operate in a variety of different types of areas. For example, fast food places are likely found in areas with relatively high and relatively low income levels. However, we hypothesized that they would probably be found at a lower frequency in high-income areas, and this hypothesis led us to move to a regression of area income on number of businesses satisfying particular criteria in the area.</p>
+
+                            <p>Moving to the OLS regression model, we observed that certain features seem key in predicting socioeconomic status of particular areas. While some of these features (Ambience_&rsquo;upscale&rsquo;, RestaurantsPriceRange2+3, and BusinessParking_&rsquo;valet&rsquo; for example) were along the lines of what we would have predicted, others were initially surprising. In particular, we thought it was interesting that the number of gluten-free places was high significant in the regression. </p>
+                            <p>Among the regressors used in the reduced regression with control, the coefficients on the following regressors were statistically significant:</p>
+                            <ul>
+                                <li>total_businesses ***</li>
+                                <li>Nightlife *</li>
+                                <li>American (New) **</li>
+                                <li>Gluten-Free ***</li>
+                                <li>Ambience_'upscale' *</li>
+                                <li>RestaurantsPriceRange2+2 *</li>
+                                <li>BusinessAcceptsCreditCards ***</li>
+                                <li>BusinessParking_'valet' **</li>
+                                <li>RestaurantsPriceRange2+3 ***</li>
+                                <li>BikeParking **</li>
+                                <li>BusinessParking_'garage' ***</li>
+                            </ul>
+                            <p>(* indicates 90% level, ** indicates 95% level, and *** indicates 99% level). In addition, we noted that the R-squared value of the reduced regression with control is around .302, so the regressors we had explained a non-trivial part of the variation in income across zip code areas. This was a noticeable improvement from the regression tree model we were previously using.</p>
+                            <p>Lastly, we noted that the R-squared value did not significantly change between the full feature set and the reduced feature set, which makes us relatively confident about removing some of the the less illustrative features in order to simplify the regression.</p>
+
+                            <header class="major">
+                                <p>Implications</p>
+                            </header>
+
+                            <p>This part of our research project indicates a great deal of potential in using business data to observe larger socioeconomic trends. Though the dataset we were using was somewhat limited for our purposes (i.e., we only had seven American cities from which to generate data and draw conclusions), we were able to generate a model that explains a noticeable portion of the variation in wealth across areas using just the attributes of businesses in those areas. This indicates high potential for creating even more predictive models with a fuller data set.</p>
+
+                            <p>On a more philosophical level, this finding suggests that basic characteristics of businesses in an area are correlated with measures of socioeconomic status. We suspect that these models would easily extend to predicting other demographic factors, like the average age of an area or the average level of education. Therefore, it could be interesting to obtain such data at a neighborhood, zip code, or city level and see whether the business data is predictive.</p>
+                            <header class="major">
+                                <p>Extensions</p>
+                            </header>
+
+                            <p>We noticed that the dataset has information about particular neighborhoods of cities, in addition to zip code-level and city-level data. We think one relatively straightforward extension would involve getting more fine-grained income data and running the same regression with this data. </p>
+
+                            <p>Another extension of interest would involve processing review data to pick up keywords in the review (for example, pricey, expensive, etc.). We did not do this because the review data provided for the Yelp Data Challenge did not provide enough reviews for the subset of data we were examining. </p>
+
+                            <p>Lastly, if we were able to obtain time-segmented data (i.e. snapshots of the businesses in an area over time and income-related information over a period of time), it would be interesting to examine patterns of gentrification and urban development over time in different areas.</p>
 <!--
 						<div class="row features">
 							<section class="4u 12u(narrower) feature">
@@ -714,7 +704,9 @@
 						
 					</section>
 				</div>
-
+                <hr>
+                    
+                    
 			<!-- Footer -->
 				<div id="footer-wrapper">
 					<div id="footer" class="container">
