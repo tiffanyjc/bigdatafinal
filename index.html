@@ -312,30 +312,6 @@
                         <p>
                             Additionally, had we been given more data across more states, it would have made sense to also run a sentiment analysis across different regions of the US (i.e. Northeast, Midwest, etc.) to observe review behaviors on a more macro, regional level than simply by state. 
                         </p>
-<!--
-						<div class="row features">
-							<section class="4u 12u(narrower) feature">
-								<div class="image-wrapper first">
-									<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-								</div>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-								vel sem sit dolor neque semper magna lorem ipsum.</p>
-							</section>
-							<section class="4u 12u(narrower) feature">
-								<div class="image-wrapper">
-									<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-								</div>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-								vel sem sit dolor neque semper magna lorem ipsum.</p>
-							</section>
-							<section class="4u 12u(narrower) feature">
-								<div class="image-wrapper">
-									<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-								</div>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-								vel sem sit dolor neque semper magna lorem ipsum.</p>
-							</section>
-						</div>
 -->
 						
 					</section>
@@ -699,37 +675,380 @@
                             <p>Another extension of interest would involve processing review data to pick up keywords in the review (for example, pricey, expensive, etc.). We did not do this because the review data provided for the Yelp Data Challenge did not provide enough reviews for the subset of data we were examining. </p>
 
                             <p>Lastly, if we were able to obtain time-segmented data (i.e. snapshots of the businesses in an area over time and income-related information over a period of time), it would be interesting to examine patterns of gentrification and urban development over time in different areas.</p>
-<!--
-						<div class="row features">
-							<section class="4u 12u(narrower) feature">
-								<div class="image-wrapper first">
-									<a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a>
-								</div>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-								vel sem sit dolor neque semper magna lorem ipsum.</p>
-							</section>
-							<section class="4u 12u(narrower) feature">
-								<div class="image-wrapper">
-									<a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a>
-								</div>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-								vel sem sit dolor neque semper magna lorem ipsum.</p>
-							</section>
-							<section class="4u 12u(narrower) feature">
-								<div class="image-wrapper">
-									<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-								</div>
-								<p>Lorem ipsum dolor sit amet consectetur et sed adipiscing elit. Curabitur
-								vel sem sit dolor neque semper magna lorem ipsum.</p>
-							</section>
-						</div>
--->
+
 						
 					</section>
 				</div>
                 <hr>
                     
-                    
+<!--                    Section 3-->
+                    <div class="wrapper">
+                        <section class="container">
+                            <header class="major">
+                                <a name="three"><h2>3:&nbsp; How can we use business and review data to predict traits about a city and its neighborhoods? </h2></a>
+                            </header>
+
+                            <p>
+                                We want to determine what business traits help to distinguish one neighborhood from another in a specific city and what neighborhood traits are generalizable across different cities. For example, can we identify where Chinatown is in a specific city by only using the business and review data? Can we find the university areas or the hospital districts?
+                            </p>
+
+                            <header class="major">
+                                <p>Procedure</p>
+                            </header>
+
+                            <h3>Filtering Data</h3>
+
+                            <ol>
+                                <li>Business Data</li>
+
+                                <p>We filtered the data for the businesses located in the 7 U.S. cities listed in the Yelp documentation. However, Phoenix and Urbana-Champaign do not have any neighborhood data. Thus the following 5 cities were used:</p>
+                                <ol>
+                                    <li>Las Vegas, NV</li>
+                                    <li>Charlotte, NC</li>
+                                    <li>Pittsburgh, PA</li>
+                                    <li>Madison, WI</li>
+                                    <li>Cleveland , OH</li>
+                                </ol>
+                                <li>Review Data</li>
+
+                                <p> We filtered the review data for only the reviews corresponding to the businesses in the 5 cities listed above.</p>
+                            </ol>
+
+                            <h3>Creating Neighborhood Maps</h3>
+
+                            <p>For each of the 5 cities, roughly 20-35% of the businesses do not have anything listed for the neighborhood field. We looked at three approaches for how to fill in these neighborhoods.</p>
+                            <ol>
+                                <li>For each business that had an empty neighborhood field, find the closest neighboring business in the same postal code that has a neighborhood listed. Fill in the current business with this neighborhood. The closest neighbor was calculated using the Euclidean distance of the latitude and longitude.</li>
+                                <li>Find the neighborhood that has the highest frequency among all the businesses with neighborhood labels in the same postal code. Complete the empty field with this neighborhood.</li>
+                                <li>The same as Approach #2 with an additional requirement that the top  neighborhood must appear for at least 5 businesses in the same postal code. Otherwise, leave the neighborhood field of the current business blank.</li>
+                            </ol>
+
+                            <p>We chose to fill in the blank neighborhoods using the third approach. While this approach left more businesses with an empty neighborhood, it still managed to fill in most of the blanks. The other two approaches demonstrated more error. This is because there exist some outliers in the data that are actually located far away from the neighborhood they are labelled with. As a result, they associate their neighborhood label with the postal code they are in. Thus, the threshold number of businesses with the same neighborhood in Approach #3 as it prevents a large group of businesses from being classified as a certain neighborhood when that neighborhood is actually located in another part of the city. </p>
+
+                            <p>Below are the neighborhood maps for each of the 5 cities. We also highlighted key neighborhoods in each city that we think are of particular interest. We wanted to see what distinctive characteristics these neighborhoods have, if any. We also wanted to see if we could identify these neighborhoods from the data, using only business traits.</p>
+
+                            <p><strong>City: </strong>Las Vegas</p>
+                            <p><strong>Key Neighborhoods: </strong>The Strip, Chinatown, Downtown, University</p>
+
+                            <img src="img/Fig31.JPG">
+                            <img src="img/Fig32.JPG">
+                            <img src="img/Fig33.JPG">
+                            <img src="img/Fig34.JPG">
+                            <img src="img/Fig35.JPG">
+
+                            <p><strong>City: </strong>Charlotte</p>
+                            <p><strong>Key Neighborhoods: </strong>University City</p>
+
+                            <img src="img/Fig36.JPG">
+                            <img src="img/Fig37.JPG">
+
+                            <p><strong>City: </strong>Pittsburgh</p>
+                            <p><strong>Key Neighborhoods: </strong>Downtown</p>
+
+                            <img src="img/Fig38.JPG">
+                            <img src="img/Fig39.JPG">
+
+                            <p><strong>City: </strong>Madison</p>
+                            <p><strong>Key Neighborhoods: </strong>South Campus</p>
+
+                            <img src="img/Fig310.JPG">
+                            <img src="img/Fig311.JPG">
+
+                            <p><strong>City: </strong>Cleveland</p>
+                            <p><strong>Key Neighborhoods: </strong>Chinatown, Little Italy, University</p>
+
+                            <img src="img/Fig312.JPG">
+                            <img src="img/Fig313.JPG">
+                            <img src="img/Fig314.JPG">
+                            <img src="img/Fig315.JPG">
+
+                            <h3>Extracting Business Features </h3>
+
+                            <p>Next, we extracted certain features from the business data that we hypothesized could have an impact in distinguishing certain neighborhoods from each others.</p>
+
+                            <ol>
+                                <li>
+                                    Business Attributes
+                                    <ol>
+                                        <li>Price Range: 1, 2, 3, or 4 $’s</li>
+                                        <li>Parking type: garage, street, validated, lot, valet</li>
+                                        <li>Ambiance: romantic, intimate, classy, hipster, divey, touristy, trendy, upscale, casual</li>
+                                        <li>Good for: kids, groups</li>
+                                        <li>Outdoor Seating</li>
+                                        <li>Casual Attire</li>
+                                        <li>Open Hours: 7 days a week, weekdays only </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    Categories
+                                    <ol>
+                                        <li>Shopping</li>
+                                        <li>Nightlife</li>
+                                        <li>Grocery</li>
+                                        <li>Restaurants</li>
+                                        <li>Italian</li>
+                                        <li>Chinese</li>
+                                        <li>Beauty &amp; Spas</li>
+                                        <li>Health &amp; Medical</li>
+                                        <li>Coffee &amp; Tea + Cafes</li>
+                                        <li>Education</li>
+                                        <li>Arts &amp; Entertainment</li>
+                                    </ol>
+                                </li>
+                            </ol>
+
+                            <p>Our initial observations showed that some of these characteristics in the business data were not well documented. This was especially present in the “ambiance” features, where few of the businesses were tagged with any of these features. Thus, we parsed through the data for certain keywords to add as features to our businesses. To classify as each keyword/feature, the business in question needs to contain at least three reviews containing that keyword. We chose this threshold because it was a rough average of the number of reviews containing each feature across businesses that had any reviews containing the keyword.</p>
+
+                            <ol>
+                                <li>Busy</li>
+                                <li>Downtown</li>
+                                <li>Chinese</li>
+                                <li>Italian</li>
+                                <li>Classy, upscale</li>
+                                <li>Hipster</li>
+                                <li>Trendy</li>
+                                <li>Expensive,pricey,overpriced</li>
+                                <li>Inexpensive,cheap</li>
+                                <li>Comfort,casual</li>
+                            </ol>
+
+                            <h3>Generating Maps</h3>
+
+                            <p>We then generated maps showing the distribution of these features across each of the cities and compared with the same maps of other cities and the original neighborhood maps. For some of the features, we chose to only map out the restaurants because some of the subjective attributes, especially the ambiance ones, appeared very infrequently for businesses that were not restaurants.</p>
+
+                            <header class="major">
+                                <p>Key Findings</p>
+                            </header>
+                            
+                            <h3>Las Vegas</h3>
+                            
+                            <p><b>Price Range: </b> Las Vegas appears to have quite a few expensive (3 or 4 $’s) businesses. These businesses  appear to be be concentrated in “The Strip” area. </p>
+                            
+                            <img src="img/Fig316.JPG">
+                            
+                            <p><b>Restaurants Price Range: </b> Upon closer look at just the 3-4$ restaurants, we can see that most of them are indeed in that area.   </p>
+                            
+                            <img src="img/Fig317.JPG">
+                            
+                            <p><b>Valet Parking: </b>A large of the businesses that offer valet parking are also located in that area, which makes sense due to the large number of hotels, casinos, and other attractions present there.  </p>
+                            
+                            <img src="img/Fig318.JPG">
+                            
+                            <p><b>Downtown: </b>The “downtown” keyword in the reviews has identified many businesses that are located in “The Strip” area as being in the “Downtown” neighborhood. This is perhaps indicative of the perception of where downtown is in Las Vegas, as the Strip is a large hub of activity, but technically is not the downtown neighborhood. </p>
+                            
+                            <img src="img/Fig319.JPG">
+                            
+                            <p><b>Nightlife: </b>There is a lot of nightlife on the Strip but nightlife is also present throughout the rest of the city. This makes sense, since Las Vegas is known for its nightlife. 
+                            </p>
+                            
+                            <img src="img/Fig320.JPG">
+                            
+                            <p><b>Arts and Entertainment: </b>Similarly, there is a lot of Arts & Entertainment in the city, especially on the Strip.
+                            </p>
+                            
+                            <img src="img/Fig321.JPG">
+                            
+                            <p><b>Busy: </b>Many of the  businesses in Las Vegas are labelled as busy, likely because it is such a popular tourist destination.
+                            </p>
+                            
+                            <img src="img/Fig322.JPG">
+                            
+                            <p><b>Expensive, overpriced : </b>Many businesses, on the Strip, but also elsewhere in the city are labelled as expensive or overpriced, based on their reviews. 
+
+                            </p>
+                            
+                            <img src="img/Fig323.JPG">
+                            
+                            <p><b>Classy/upscale, trendy: </b>A large majority of the businesses that are classified as classy, upscale, or trendy are located on the strip. 
+
+                            </p>
+                            
+                            <img src="img/Fig324.JPG">
+                            <img src="img/Fig325.JPG">
+                            
+                            <p><b>Chinese Restaurants: </b>Although Las Vegas does have a Chinatown neighborhood, there are chinese restaurants all over the city. The Chinese restaurants do appear to be more concentrated in the Chinatown area. 
+                            </p>
+                            
+                            <img src="img/Fig326.JPG">
+                            
+                            <h3>Charlotte</h3>
+                            
+                            <p><b>Price Range: </b> The price range breakdown of businesses in Charlotte shows that there are a lot fewer expensive businesses compared to Las Vegas  </p>
+
+                            <img src="img/Fig327.JPG">
+
+                            <p><b>Restaurants Price Range: </b>Likewise, there are a lot fewer 3 and 4 $s restaurants. </p>
+
+                            <img src="img/Fig328.JPG">
+
+                            <p><b>Valet Parking: </b>Furthermore, very few businesses in Charlotte offer valet parking.   </p>
+
+                            <img src="img/Fig329.JPG">
+
+                            <p><b>Downtown: </b>Even though Charlotte does not have an official downtown neighborhood, the businesses that are classified as downtown through the reviews are all clustered in one area </p>
+
+                            <img src="img/Fig330.JPG">
+
+                            <p><b>Trendy: </b>The businesses that are classified as trendy are located close to the downtown that was identified through the reviews. 
+                            </p>
+
+                            <img src="img/Fig331.JPG">
+
+                            <p><b>Classy / upscale: </b>Many of the classy/upscale businesses are also located “downtown”. Compared to Las Vegas, there are much fewer of these restaurants. 
+                            </p>
+
+                            <img src="img/Fig332.JPG">
+
+                           <h3>Pittsburgh</h3>
+                            
+                            <p><b>Price Range: </b> TThe prices range breakdown of businesses in Pittsburgh shows that there are not too many expensive businesses in the city. 
+                            </p>
+
+                            <img src="img/Fig333.JPG">
+
+                            <p><b>Restaurants Price Range: </b>Many of  the more expensive restaurants in Pittsburgh seem to be clustered in the center of the city.  </p>
+
+                            <img src="img/Fig334.JPG">
+
+                            <p><b>Valet Parking: </b>Like with Charlotte, there are not many businesses in Pittsburgh that offer Valet Parking   </p>
+
+                            <img src="img/Fig335.JPG">
+
+                            <p><b>Downtown: </b>The clustered area that represents the businesses in Pittsburgh that are located “downtown” based on their reviews, matches up very well with the actual downtown neighborhood in Pittsburgh (Figure 3.9). </p>
+
+                            <img src="img/Fig336.JPG">
+
+                            <p><b>Arts and Entertainment: </b>Most businesses that fall in the Arts & Entertainment category are located in or close to downtown. 
+                            </p>
+
+                            <img src="img/Fig337.JPG">
+
+                            <p><b>Hipster / Trendy: </b>The businesses that are hipster or trendy are located in the same area that is close to the downtown neighborhood. 
+                            </p>
+
+                            <img src="img/Fig338.JPG">
+                            <img src="img/Fig339.JPG">
+                            
+                            <h3>Madison</h3>
+
+                            <p><b>Price Range: </b> Madison also has few expensive businesses. 
+
+                            </p>
+
+                            <img src="img/Fig340.JPG">
+
+                            <p><b>Restaurants Price Range: </b>The few expensive restaurants are clustered together. 
+                            </p>
+
+                            <img src="img/Fig341.JPG">
+
+                            <p><b>Valet Parking: </b>There are almost no businesses in Madison that offer valet parking. 
+                            </p>
+
+                            <img src="img/Fig342.JPG">
+
+                            <p><b>Downtown: </b>Again, there is a clustering of businesses that have downtown mentioned in their reviews. </p>
+
+                            <img src="img/Fig343.JPG">
+
+                            <p><b>Classy / upscale: </b>There are few classy or upscale restaurants and they are located close to this “downtown”.
+                            </p>
+
+                            <img src="img/Fig344.JPG">
+
+                            <p><b>Casual / comfort: </b>Many of the restaurants in Madison have an ambiance of casual or comfort. There are few restaurants that are neither of these two. 
+                            </p>
+
+                            <img src="img/Fig345.JPG">
+                            
+                            
+                            <h3>Cleveland</h3>
+
+                            <p><b>Price Range: </b> Cleveland’s price range breakdown is similar to most of the other cities, with few expensive businesses.  
+
+                            </p>
+
+                            <img src="img/Fig346.JPG">
+
+                            <p><b>Restaurants Price Range: </b>All the expensive restaurants are clustered in the center of the city. 
+
+                            </p>
+
+                            <img src="img/Fig347.JPG">
+
+                            <p><b>Valet Parking: </b>The few businesses that offer parking are clustered together, in the same area as the expensive restaurants. 
+
+                            </p>
+
+                            <img src="img/Fig348.JPG">
+
+                            <p><b>Downtown: </b>The area of the city that has been classified as “downtown” based on the reviews overlaps with the area with expensive restaurants </p>
+
+                            <img src="img/Fig349.JPG">
+
+                            <p><b>Busy: </b>Businesses that are busy exist throughout the city, but many of them are close to or in this downtown area. 
+                            </p>
+
+                            <img src="img/Fig350.JPG">
+
+                            <p><b>Arts and Entertainment: </b>Most of the Arts & Entertainment businesses are also located in this area. 
+
+                            </p>
+
+                            <img src="img/Fig351.JPG">
+                            
+                            <p><b>Expensive/pricey/overpriced,classy/upscale, trendy : </b>The restaurants that are expensive/pricey are the same or in the same area as the restaurants that are classy and/or trendy. 
+
+                            </p>
+
+                            <img src="img/Fig352.JPG">
+                            <img src="img/Fig353.JPG">
+                            <img src="img/Fig354.JPG">
+                            
+                            <p><b>Chinese: </b>The chinese restaurants seem to be spread out over the city. They are not clustered around Chinatown.   
+
+                            </p>
+
+                            <img src="img/Fig355.JPG">
+                            
+                            <p><b>Italian: </b>The italian restaurants are also spread out and are not clustered around Little Italy.
+
+                            </p>
+
+                            <img src="img/Fig356.JPG">
+                            
+                            <header class="major">
+                                <p>Implications</p>
+                            </header>
+                            
+                            <p>Based on the maps generated, we can make a number of conclusions that are related to the neighborhoods of a city and are generalizable to different cities. 
+                            </p>
+                            
+                            <p><b>1: </b>We can use the data to predict where downtown is in a city. This area will likely also have a cluster of arts & entertainment and nightlife. It will also contain many businesses that can be classified as “busy”.</p>
+                            
+                            <p><b>2: </b>It is difficult to use the data to find neighborhoods like Chinatown and Little Italy. This is because while there may be a high concentration of chinese and italian restaurants in Chinatown and Little Italy, respectively, there are also many other chinese and italian restaurants throughout the rest of the city. Thus, especially in a city that may be densely populated with many businesses, it is difficult to see where the clustering of restaurants occurs.  </p>
+                            
+                            <p><b>3: </b> Most cities have a breakdown of price ranges where the majority of businesses are either “$” or “$$”. Of the “$$$” and “$$$$” businesses, most of them are located in the same area, that often corresponds with downtown. Wherever these expensive restaurants are located, the valet parking of a city is also located there. Additionally, the space occupied by trendy, upscale, and pricey restaurants also overlaps with them. </p>
+                            
+                            <p>There were also a couple findings that were city-specific. Rather than telling us about specific neighborhoods in a city, they tell us more about the city as a whole. </p>
+                            
+                            <p><b>1: </b> We can see the general street makeup of a city from the map of its businesses. For example, Las Vegas streets, with the exception of the Strip, form a grid. Meanwhile, Charlotte and Pittsburgh appear less rigid, with curved roads and a couple major roads/highways going through the city.   </p>
+                            
+                            <p><b>2: </b>We can also glean some insights about the physical geography of a city. There is a large area near the center of the map of Madison. This implies that there is some reason the city was formed this way, with no businesses in that area, such as elevation or a body of water. In fact, there is a lake in the middle of the city of Madison.  </p>
+                            
+                            <p><b>3: </b> We can also see the spread of a city from its maps. Las Vegas is much more dense than some of the other cities. This makes sense it is a tourist destination with many businesses that want to be as close to the Strip as possible. This is also present in many of the feature maps because rather than having businesses of a certain feature all clustered together, they were all over the city. For example arts & entertainment businesses show up all over the city, where for many of the other cities, they are clustered closer to the downtown area. The maps for the other cities also appear to be more suburban and less densely packed because there is more space between the different businesses. </p>
+                            
+                            <header class="major">
+                                <p>Extensions</p>
+                            </header>
+
+                            <p>With more time and, a logical extension to this process is to refine the preciseness of the analysis. With the current mapping of businesses based on their features, it can be difficult to determine if a cluster of businesses only occurs because that area of the city is more densely populated overall with businesses of all types. To combat this problem, we can create some sort of normalization factor using the density of the identified businesses of a certain feature in a specific area, such as postal code, and comparing it to the overall density of all businesses in the same area. Thus, the neighborhood and feature maps are a first step in determining which characteristics, businesses, and neighborhoods to examine further. </p>
+                            
+                            <p>Another takeaway from this is looking at how Yelp can improve their website to be more indicative of businesses and their features. As mentioned earlier, some of the business characteristics, especially the ambiance features are very sparsely used. However, some of the same ambiance keywords from the reviews proved to be very useful in distinguishing some areas of the cities from others. Thus, Yelp can look into completing these fields for their users by looking through the review data, especially since the reviews portray how past customers perceive the business and its characteristics, such as ambiance.</p>
+                            
+                            
+                        </section>
+                    </div>
 			
 
 		</div>
